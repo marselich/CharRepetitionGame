@@ -1,6 +1,5 @@
 ﻿using Assets._Project.Develop.Runtime.Infrastructure;
 using Assets._Project.Develop.Runtime.Infrastructure.DI;
-using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using System;
 using System.Collections;
@@ -13,6 +12,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
     {
         private DIContainer _container;
         private GameplayInputArgs _inputArgs;
+
+        private GameCycle _gameCycle;
 
         public override void ProcessRegistrations(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -28,25 +29,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 
         public override IEnumerator Initialize()
         {
-            Debug.Log($"Вы попали на уровень {_inputArgs.LevelNumber}");
+            Debug.Log($"Вы попали на уровень: {_inputArgs.CharsGeneratorConfig.CharsType.ToString()}");
+
+            _gameCycle = new GameCycle(_container, _inputArgs.CharsGeneratorConfig);
 
             yield break;
         }
 
         public override IEnumerator Run()
         {
+            yield return _gameCycle.Prepare();
+
+            yield return _gameCycle.Launch();
+
             yield break;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                ICoroutinesPerformer coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
-                SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
+            _gameCycle?.Update(Time.deltaTime);
+        }
 
-                coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
-            }
+        private void OnDestroy()
+        {
+            _gameCycle.Dispose();
         }
     }
 }

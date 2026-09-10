@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using System;
 using System.Collections;
@@ -12,6 +13,8 @@ namespace Assets._Project.Develop.Runtime.Utilities.ConfigsManagment
 
         private readonly Dictionary<Type, string> _configsResourcesPaths = new()
         {
+            { typeof(LettersGeneratorConfig), "Configs/LettersGeneratorConfig" },
+            { typeof(DigitsGeneratorConfig), "Configs/DigitsGeneratorConfig" }
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resources)

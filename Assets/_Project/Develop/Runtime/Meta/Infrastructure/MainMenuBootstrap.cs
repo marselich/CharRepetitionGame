@@ -1,16 +1,14 @@
-﻿using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
-using Assets._Project.Develop.Runtime.Infrastructure;
+﻿using Assets._Project.Develop.Runtime.Infrastructure;
 using Assets._Project.Develop.Runtime.Infrastructure.DI;
-using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using System.Collections;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 {
     public class MainMenuBootstrap : SceneBootstrap
     {
         private DIContainer _container;
+        private GameModeSwitcher _gameModeSwitcher;
 
         public override void ProcessRegistrations(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -21,6 +19,9 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 
         public override IEnumerator Initialize()
         {
+            _gameModeSwitcher = new GameModeSwitcher(_container);
+
+            _gameModeSwitcher.Initialize();
             yield break;
         }
 
@@ -29,15 +30,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
             yield break;
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                ICoroutinesPerformer coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
-                SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-
-                coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(2)));
-            }
-        }
+        private void Update() => _gameModeSwitcher?.Update();
     }
 }

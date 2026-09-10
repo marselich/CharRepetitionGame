@@ -12,11 +12,7 @@ namespace Assets._Project.Develop.Runtime.Infrastructure.EntryPoint
     {
         private void Awake()
         {
-            Debug.Log("Старт проекта, сетап настроек");
-
             SetupAppSettings();
-
-            Debug.Log("Процесс регистрации сервисов всего проекта");
 
             DIContainer projectContainer = new DIContainer();
 
@@ -36,21 +32,14 @@ namespace Assets._Project.Develop.Runtime.Infrastructure.EntryPoint
             ILoadingScreen loadingScreen = container.Resolve<ILoadingScreen>();
             SceneSwitcherService sceneSwitcherService = container.Resolve<SceneSwitcherService>();
 
-            Debug.Log("Открывается штора загрузки");
             loadingScreen.Show();
 
-            Debug.Log("Начинается инициализация сервисов");
-
-            yield return container.Resolve<ConfigsProviderService>();
+            yield return container.Resolve<ConfigsProviderService>().LoadAsync();
 
             yield return new WaitForSeconds(1); // для симуляции загрузки
 
-            Debug.Log("Завершается инициализация сервисов");
-
-            Debug.Log("Закрывается штора загрузки");
             loadingScreen.Hide();
 
-            Debug.Log("Начинается переход на какую-то сцену");
             yield return sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu);
         }
     }
