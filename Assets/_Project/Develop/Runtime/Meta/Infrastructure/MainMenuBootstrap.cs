@@ -19,9 +19,9 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 
         public override IEnumerator Initialize()
         {
-            _gameModeSwitcher = new GameModeSwitcher(_container);
+            _gameModeSwitcher = _container.Resolve<GameModeSwitcher>();
 
-            _gameModeSwitcher.Initialize();
+            _gameModeSwitcher.Start();
             yield break;
         }
 

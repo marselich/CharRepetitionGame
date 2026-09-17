@@ -1,6 +1,5 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.Configs;
 using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
-using Assets._Project.Develop.Runtime.Infrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
@@ -10,24 +9,25 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 {
     public class GameModeSwitcher
     {
-        private DIContainer _container;
         private ICoroutinesPerformer _coroutinesPerformer;
         private SceneSwitcherService _sceneSwitcherService;
         private ConfigsProviderService _configsProviderService;
 
         private bool _isRunning;
 
-        public GameModeSwitcher(DIContainer container)
+        public GameModeSwitcher(
+            ICoroutinesPerformer coroutinesPerformer,
+            SceneSwitcherService sceneSwitcherService,
+            ConfigsProviderService configsProviderService
+            )
         {
-            _container = container;
+            _coroutinesPerformer = coroutinesPerformer;
+            _sceneSwitcherService = sceneSwitcherService;
+            _configsProviderService = configsProviderService;
         }
 
-        public void Initialize()
+        public void Start()
         {
-            _coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
-            _sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-            _configsProviderService = _container.Resolve<ConfigsProviderService>();
-
             _isRunning = true;
         }
 

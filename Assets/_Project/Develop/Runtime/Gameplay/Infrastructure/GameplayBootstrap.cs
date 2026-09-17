@@ -31,7 +31,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         {
             Debug.Log($"Вы попали на уровень: {_inputArgs.CharsGeneratorConfig.CharsType.ToString()}");
 
-            _gameCycle = new GameCycle(_container, _inputArgs.CharsGeneratorConfig);
+            _gameCycle = _container.Resolve<GameCycle>();
 
             yield break;
         }

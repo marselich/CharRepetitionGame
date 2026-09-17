@@ -1,7 +1,6 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.Configs;
 using Assets._Project.Develop.Runtime.Gameplay.Controllers;
 using Assets._Project.Develop.Runtime.Gameplay.Generators;
-using Assets._Project.Develop.Runtime.Infrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using System;
@@ -12,32 +11,32 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 {
     public class GameCycle : IDisposable
     {
-        private DIContainer _container;
-
         private ICharsGeneratorConfig _charsGeneratorConfig;
         private CharsGenerator _charsGenerator;
-        private GameMode _gameMode;
         private ICoroutinesPerformer _coroutinesPerformer;
         private SceneSwitcherService _sceneSwitcherService;
-        private Controller _controller;
         private ControllersFactory _controllersFactory;
 
-        public GameCycle(DIContainer container, ICharsGeneratorConfig charsGeneratorConfig)
+        private GameMode _gameMode;
+        private Controller _controller;
+
+        public GameCycle(
+            ICharsGeneratorConfig charsGeneratorConfig,
+            CharsGenerator charsGenerator,
+            ICoroutinesPerformer coroutinesPerformer,
+            SceneSwitcherService sceneSwitcherService,
+            ControllersFactory controllersFactory
+            )
         {
-            _container = container;
             _charsGeneratorConfig = charsGeneratorConfig;
+            _charsGenerator = charsGenerator;
+            _coroutinesPerformer = coroutinesPerformer;
+            _sceneSwitcherService = sceneSwitcherService;
+            _controllersFactory = controllersFactory;
         }
 
         public IEnumerator Prepare()
         {
-            _charsGenerator = _container.Resolve<CharsGenerator>();
-
-            _coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
-
-            _sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-
-            _controllersFactory = _container.Resolve<ControllersFactory>();
-
             yield break;
         }
 
