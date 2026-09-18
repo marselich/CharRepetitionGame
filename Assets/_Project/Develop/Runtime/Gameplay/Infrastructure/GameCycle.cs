@@ -1,7 +1,13 @@
-﻿using Assets._Project.Develop.Runtime.Gameplay.Configs;
+﻿using Assets._Project.Develop.Runtime.Configs.Gameplay.CharsGenerator;
+using Assets._Project.Develop.Runtime.Configs.Gameplay.Score;
+using Assets._Project.Develop.Runtime.Configs.Meta.Wallet;
 using Assets._Project.Develop.Runtime.Gameplay.Controllers;
 using Assets._Project.Develop.Runtime.Gameplay.Generators;
+using Assets._Project.Develop.Runtime.Meta.Features.ScoreManagment;
+using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
+using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using System;
 using System.Collections;
@@ -16,27 +22,40 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private ICoroutinesPerformer _coroutinesPerformer;
         private SceneSwitcherService _sceneSwitcherService;
         private ControllersFactory _controllersFactory;
+        private ConfigsProviderService _configsProviderService;
+        private WalletService _walletService;
+        private ScoreCounterService _scoreCounterService;
+        private PlayerDataProvider _playerDataProvider;
 
         private GameMode _gameMode;
         private Controller _controller;
+        private ScoreRewardConfig _winLoseRewardConfig;
 
         public GameCycle(
             ICharsGeneratorConfig charsGeneratorConfig,
             CharsGenerator charsGenerator,
             ICoroutinesPerformer coroutinesPerformer,
             SceneSwitcherService sceneSwitcherService,
-            ControllersFactory controllersFactory
-            )
+            ControllersFactory controllersFactory,
+            ConfigsProviderService configsProviderService,
+            WalletService walletService,
+            ScoreCounterService scoreCounterService,
+            PlayerDataProvider playerDataProvider)
         {
             _charsGeneratorConfig = charsGeneratorConfig;
             _charsGenerator = charsGenerator;
             _coroutinesPerformer = coroutinesPerformer;
             _sceneSwitcherService = sceneSwitcherService;
             _controllersFactory = controllersFactory;
+            _configsProviderService = configsProviderService;
+            _walletService = walletService;
+            _scoreCounterService = scoreCounterService;
+            _playerDataProvider = playerDataProvider;
         }
 
         public IEnumerator Prepare()
         {
+            _winLoseRewardConfig = _configsProviderService.GetConfig<ScoreRewardConfig>();
             yield break;
         }
 
@@ -71,12 +90,24 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 
         private void OnGameModeWined()
         {
+            foreach (CurrencyConfig currency in _winLoseRewardConfig.WinRewards)
+            {
+                _walletService.Add(currency.Type, currency.Value);
+                _scoreCounterService.AddWin();
+            }
+
             Debug.Log("Вы выиграли!");
             OnGameModeEnded(true);
         }
 
         private void OnGameModeDefeated()
         {
+            foreach (CurrencyConfig currency in _winLoseRewardConfig.LoseRewards)
+            {
+                _walletService.Spend(currency.Type, currency.Value);
+                _scoreCounterService.AddLose();
+            }
+
             Debug.Log("Вы проиграли :(");
             OnGameModeEnded(false);
         }
@@ -87,6 +118,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             {
                 _gameMode.Wined -= OnGameModeWined;
                 _gameMode.Defeated -= OnGameModeDefeated;
+
+                _coroutinesPerformer.StartPerform(_playerDataProvider.Save());
 
                 if (isWin)
                     _coroutinesPerformer.StartPerform(EndWinGameProcess());
