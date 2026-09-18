@@ -1,4 +1,4 @@
-﻿using Assets._Project.Develop.Runtime.Gameplay.Configs;
+﻿using Assets._Project.Develop.Runtime.Configs.Gameplay.CharsGenerator;
 using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;

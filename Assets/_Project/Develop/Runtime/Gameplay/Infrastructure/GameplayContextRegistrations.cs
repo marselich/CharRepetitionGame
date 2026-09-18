@@ -1,7 +1,11 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.Controllers;
 using Assets._Project.Develop.Runtime.Gameplay.Generators;
 using Assets._Project.Develop.Runtime.Infrastructure.DI;
+using Assets._Project.Develop.Runtime.Meta.Features.ScoreManagment;
+using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
+using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using UnityEngine;
 
@@ -27,13 +31,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private static ControllersFactory CreateControllersFactory(DIContainer c) => new ControllersFactory();
 
         private static GameCycle CreateGameCycle(DIContainer c)
-        {
-            CharsGenerator charsGenerator = c.Resolve<CharsGenerator>();
-            ICoroutinesPerformer coroutinesPerformer = c.Resolve<ICoroutinesPerformer>();
-            SceneSwitcherService sceneSwitcherService = c.Resolve<SceneSwitcherService>();
-            ControllersFactory controllersFactory = c.Resolve<ControllersFactory>();
-
-            return new GameCycle(_args.CharsGeneratorConfig, charsGenerator, coroutinesPerformer, sceneSwitcherService, controllersFactory);
-        }
+            => new GameCycle(
+                _args.CharsGeneratorConfig,
+                c.Resolve<CharsGenerator>(),
+                c.Resolve<ICoroutinesPerformer>(),
+                c.Resolve<SceneSwitcherService>(),
+                c.Resolve<ControllersFactory>(),
+                c.Resolve<ConfigsProviderService>(),
+                c.Resolve<WalletService>(),
+                c.Resolve<ScoreCounterService>(),
+                c.Resolve<PlayerDataProvider>()
+                );
     }
 }
