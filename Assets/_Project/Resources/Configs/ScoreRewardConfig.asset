@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8767a6c9d8b25948a08bb6be96932e9, type: 3}
-  m_Name: DigitsGeneratorConfig
+  m_Script: {fileID: 11500000, guid: 436cad60b2e0e7c48a6fdfa349bc38d7, type: 3}
+  m_Name: ScoreRewardConfig
   m_EditorClassIdentifier: 
-  <CharsCount>k__BackingField: 5
+  _winRewardValues:
+  - <Type>k__BackingField: 0
+    <Value>k__BackingField: 25
+  _loseRewardValues:
+  - <Type>k__BackingField: 0
+    <Value>k__BackingField: 10

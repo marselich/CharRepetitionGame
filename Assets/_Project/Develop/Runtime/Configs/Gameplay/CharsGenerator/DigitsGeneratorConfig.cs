@@ -1,9 +1,9 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.Generators;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Configs
+namespace Assets._Project.Develop.Runtime.Configs.Gameplay.CharsGenerator
 {
-    [CreateAssetMenu(menuName = "Configs/Gameplay/DigitsGeneratorConfig", fileName = "DigitsGeneratorConfig")]
+    [CreateAssetMenu(menuName = "Configs/Gameplay/CharsGenerator/DigitsGeneratorConfig", fileName = "DigitsGeneratorConfig")]
     public class DigitsGeneratorConfig : ScriptableObject, ICharsGeneratorConfig
     {
         public CharsType CharsType { get; } = CharsType.Digits;

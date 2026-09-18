@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b08b5a438de45f94197405c02ae96c3d, type: 3}
+  m_Script: {fileID: 11500000, guid: ec8d8e63f5caac9449972650c570bfa2, type: 3}
   m_Name: LettersGeneratorConfig
   m_EditorClassIdentifier: 
   <CharsCount>k__BackingField: 5

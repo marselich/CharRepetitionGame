@@ -1,4 +1,6 @@
-using Assets._Project.Develop.Runtime.Gameplay.Configs;
+using Assets._Project.Develop.Runtime.Configs.Gameplay.CharsGenerator;
+using Assets._Project.Develop.Runtime.Configs.Gameplay.Score;
+using Assets._Project.Develop.Runtime.Configs.Meta.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using System;
 using System.Collections;
@@ -14,7 +16,10 @@ namespace Assets._Project.Develop.Runtime.Utilities.ConfigsManagment
         private readonly Dictionary<Type, string> _configsResourcesPaths = new()
         {
             { typeof(LettersGeneratorConfig), "Configs/LettersGeneratorConfig" },
-            { typeof(DigitsGeneratorConfig), "Configs/DigitsGeneratorConfig" }
+            { typeof(DigitsGeneratorConfig), "Configs/DigitsGeneratorConfig" },
+            { typeof(StartWalletConfig), "Configs/StartWalletConfig" },
+            { typeof(ScoreRewardConfig), "Configs/ScoreRewardConfig" },
+            { typeof(ScoreResetCostConfig), "Configs/ScoreResetCostConfig" },
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resources)

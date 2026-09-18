@@ -1,6 +1,6 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.Generators;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Configs
+namespace Assets._Project.Develop.Runtime.Configs.Gameplay.CharsGenerator
 {
     public interface ICharsGeneratorConfig
     {

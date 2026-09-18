@@ -1,9 +1,9 @@
 ﻿using Assets._Project.Develop.Runtime.Gameplay.Generators;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Configs
+namespace Assets._Project.Develop.Runtime.Configs.Gameplay.CharsGenerator
 {
-    [CreateAssetMenu(menuName = "Configs/Gameplay/LettersGeneratorConfig", fileName = "LettersGeneratorConfig")]
+    [CreateAssetMenu(menuName = "Configs/Gameplay/CharsGenerator/LettersGeneratorConfig", fileName = "LettersGeneratorConfig")]
     public class LettersGeneratorConfig : ScriptableObject, ICharsGeneratorConfig
     {
         public CharsType CharsType { get; } = CharsType.Letters;

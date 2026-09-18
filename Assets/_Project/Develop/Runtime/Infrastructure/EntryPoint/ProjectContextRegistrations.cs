@@ -1,4 +1,5 @@
 ﻿using Assets._Project.Develop.Runtime.Infrastructure.DI;
+using Assets._Project.Develop.Runtime.Meta.Features.ScoreManagment;
 using Assets._Project.Develop.Runtime.Meta.Features.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
@@ -34,11 +35,13 @@ namespace Assets._Project.Develop.Runtime.Infrastructure.EntryPoint
 
             c.RegisterAsSingle<SceneSwitcherService>(CreateSceneSwitcherService);
 
-            c.RegisterAsSingle<WalletService>(CreateWalletService).NonLazy();
-
             c.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
 
             c.RegisterAsSingle<PlayerDataProvider>(CreatePlayerDataProvider);
+
+            c.RegisterAsSingle<WalletService>(CreateWalletService).NonLazy();
+
+            c.RegisterAsSingle<ScoreCounterService>(CreateScoreCounterService).NonLazy();
         }
 
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c)
@@ -53,6 +56,9 @@ namespace Assets._Project.Develop.Runtime.Infrastructure.EntryPoint
 
             return new WalletService(currencies, c.Resolve<PlayerDataProvider>());
         }
+
+        private static ScoreCounterService CreateScoreCounterService(DIContainer c)
+            => new ScoreCounterService(c.Resolve<PlayerDataProvider>());
 
         private static SaveLoadService CreateSaveLoadService(DIContainer c)
         {
