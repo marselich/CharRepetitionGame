@@ -12,7 +12,10 @@ namespace Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders
     {
         private readonly ConfigsProviderService _configProviderService;
 
-        public PlayerDataProvider(ISaveLoadService saveLoadService, ConfigsProviderService configProviderService) : base(saveLoadService)
+        public PlayerDataProvider(
+            ISaveLoadService saveLoadService,
+            ConfigsProviderService configProviderService
+            ) : base(saveLoadService)
         {
             _configProviderService = configProviderService;
         }
@@ -21,7 +24,9 @@ namespace Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders
         {
             return new PlayerData()
             {
-                WalletData = InitWalletData()
+                WalletData = InitWalletData(),
+                WinCount = 0,
+                LoseCount = 0,
             };
         }
 
