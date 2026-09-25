@@ -13,7 +13,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment
         public Coroutine StartPerform(IEnumerator coroutineFunction)
             => StartCoroutine(coroutineFunction);
 
-        public void StopPerform(IEnumerator coroutineFunction)
+        public void StopPerform(Coroutine coroutineFunction)
             => StopCoroutine(coroutineFunction);
     }
 }

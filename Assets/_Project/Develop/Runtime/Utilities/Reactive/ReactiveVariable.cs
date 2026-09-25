@@ -21,7 +21,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.Reactive
 
             set
             {
-                T oldValue = value;
+                T oldValue = _value;
 
                 _value = value;
 
